@@ -1,30 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import UploadForm from './UploadForm'
 import UploadMsgComp from './UploadMsgComp'
 
-
 const MainUploadComp = () => {
-    const [uploaded, setUploaded] = useState(false);
-    const [selectedFile, setSelectedFile] = useState(null);
+    const [showModal, setShowModal] = useState(false);
     const [shareableURL, setShareableURL] = useState('');
 
-
-    useEffect(() => {
-        !uploaded ? setShareableURL("dfgdfg") : setShareableURL(false) 
-    }, uploaded)
+    const handleFileUploadSuccess = (url) => {
+        setShareableURL(url);
+        setShowModal(!showModal);
+    };
 
     return (
         <div>
-            <UploadForm
-                uploaded={uploaded}
-                setUploaded={setUploaded}
-                selectedFile={selectedFile}
-                setSelectedFile={setSelectedFile} />
-            {/* <UploadMsgComp
-                uploaded={uploaded}
-                shareableURL={shareableURL} /> */}
+            {!showModal ?
+                <UploadForm handleFileUploadSuccess={handleFileUploadSuccess} />
+                : <UploadMsgComp
+                    showModal={showModal}
+                    shareableURL={shareableURL}
+                    setShowModal={setShowModal} />}
         </div>
-        
     );
 }
 
