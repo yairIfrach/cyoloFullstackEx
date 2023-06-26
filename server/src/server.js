@@ -6,6 +6,8 @@ const { addImgToDb } = require('./bl/addImgLogic')
 
 const PORT = 3000
 const app = express();
+const localEnv = 'http://localhost:3000/v1/';
+
 
 app.use(fileupload({ createParentPath: true }));
 app.use(cors());
@@ -25,7 +27,7 @@ app.put('/v1/file', async (req, res) => {
             res.send({
                 status: "success",
                 message: `File is uploaded and wiil be remove in ${req.body.retentionTime} minutes.`,
-                url: sharableURL
+                url: localEnv + sharableURL
             });
         }
     } catch (err) {
@@ -52,7 +54,8 @@ app.get('/v1/:fileUrl', async (req, res) => {
                 const response = {
                     status: "success",
                     message: `We found the picture you asked for!`,
-                    img: imgToSend
+                    url: imgToSend.metaData.url,
+                    img: imgToSend,
                 }
                 res.setHeader('Content-Type', 'application/json');
                 res.send(JSON.stringify(response));

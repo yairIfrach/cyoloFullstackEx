@@ -3,48 +3,30 @@ import { Button, Card, CardContent, Container, Grid, TextField, Typography, Moda
 import {FileCopy} from '@material-ui/icons';
 
 const UploadMsgComp = (props) => {
-    const {uploaded, shareableURL } = props
+    const {showModal, shareableURL, setShowModal } = props
     
     const [copySuccess, setCopySuccess] = useState(false);
 
     const handleCopyToClipboard = () => {
         navigator.clipboard.writeText(shareableURL);
+        setShowModal(false)
         setCopySuccess(true);
     };
 
-    const handleModalClose = () => {
-        setCopySuccess(false);
-    };
-
     return (
-        <Modal open={shareableURL} onClose={handleModalClose} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <div style={{ backgroundColor: '#fff', padding: '30px', outline: 'none' }}>
-                <Typography variant="h6" align="center" gutterBottom>
-                    File Uploaded Successfully!
-                </Typography>
-                <Typography variant="body1" align="center" gutterBottom>
-                    Shareable URL:
-                </Typography>
-                <TextField
-                    variant="outlined"
-                    fullWidth
-                    value={shareableURL}
-                    InputProps={{
-                        readOnly: true,
-                        endAdornment: (
-                            <Button
-                                onClick={handleCopyToClipboard}
-                                style={{ minWidth: 'auto' }}
-                                endIcon={<FileCopy />}
-                                disabled={copySuccess}
-                            >
-                                {copySuccess ? 'Copied!' : 'Copy'}
-                            </Button>
-                        ),
-                    }}
-                />
-            </div>
-        </Modal>
+        <Modal open={showModal}>
+                <Card>
+                    <Typography variant="h6" gutterBottom>
+                        File Uploaded!
+                    </Typography>
+                    <Typography variant="body1" gutterBottom>
+                        Sharable URL: {shareableURL}
+                    </Typography>
+                    <Button variant="outlined" onClick={handleCopyToClipboard}>
+                        Copy to Clipboard
+                    </Button>
+                </Card>
+            </Modal>
 
     );
 }
