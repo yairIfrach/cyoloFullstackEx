@@ -1,12 +1,15 @@
-
 const crypto = require('crypto');
-const { saveImgsToDB } = require('../dal/accessData')
+const { saveImgToDB, getImgsFromDBByUrl } = require('../module/accessData')
 
 //At real DB i will use UUID or other unique id but for now it's simple counter
 let idCounter = 1;
 
+const getImgByUrl = async (urlImg) => {
+    return await getImgsFromDBByUrl(urlImg)
+}
+
 const addImgToDb = async (dataImg, metaDataImg) => {
-    return await saveImgsToDB(imgBuilder(dataImg, metaDataImg))
+    return await saveImgToDB(imgBuilder(dataImg, metaDataImg))
 }
 
 const imgBuilder = (dataImg, metaDataImg) => {
@@ -23,9 +26,9 @@ const imgBuilder = (dataImg, metaDataImg) => {
     return imgToSave
 }
 
-const dateTimeBuilder = (expiredDateInMinute) => {
+const dateTimeBuilder = (expiredDateInMinutes) => {
     const currentDate = new Date();
-    const expiredDate = new Date(currentDate.getTime() + expiredDateInMinute * 60000);
+    const expiredDate = new Date(currentDate.getTime() + expiredDateInMinutes * 60000);
     return {
         currentDate,
         expiredDate
@@ -46,4 +49,5 @@ const uniqueURLBuilder = (imageBuffer, updateDate, expiredDate) => {
 
 module.exports = {
     addImgToDb,
+    getImgByUrl,
 };
