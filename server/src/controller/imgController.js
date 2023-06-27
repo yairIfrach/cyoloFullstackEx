@@ -1,12 +1,12 @@
 
-const { addImgToDb, getImgByUrl } = require('../services/imgService')
+import { addImgToDb, getImgByUrl } from '../services/imgService.js'
 const BACE_URL = 'http://localhost:3000/v1/';
 
 const imgController = {
 
     handleAddImgRequest: async (req, res) => {
         try {
-            if (!req.files.imgToSave) {
+            if (!req.files?.imgToSave) {
                 res.status(400).send({
                     status: "failed",
                     message: "No file uploaded",
@@ -57,6 +57,6 @@ const imgController = {
     },
 };
 
-module.exports = {
+ export {
     imgController
 };

@@ -1,7 +1,7 @@
-const express = require('express');
-const fileupload = require('express-fileupload');
-const cors = require('cors');
-const v1Routes = require('./routes/v1Routes');
+import express from 'express'
+import fileupload from 'express-fileupload'
+import cors from 'cors'
+import v1Routes from './routes/v1Routes.js'
 
 const PORT = 3000
 const app = express();

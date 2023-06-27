@@ -9,17 +9,15 @@ const MainUploadComp = () => {
 
     const [showModal, setShowModal] = useState(false);
     const [shareableURL, setShareableURL] = useState('');
-    const [backgroundImag, setBackgroundImag] = useState(DEFAULT_IMG);
+    const [backgroundImg, setBackgroundImg] = useState(DEFAULT_IMG);
 
-    const setBackgroungImg = async (url) => {
+    const applyImg = async (url) => {
         try {
             const response = await axios.get(url);
-            const imageData = response.data.img.dataImg.data;
+            const imageData = response.data.img.dataImg.base64Data;
             const mimeType = response.data.img.dataImg.mimetype;
             const dataUrl = `data:${mimeType};base64,${imageData}`;
-            // const dataUrl = `data:${imgRes.mimetype};base64,${Buffer.from(imgRes.data, 'binary').toString('base64')}`;
-            //fix set background
-            setBackgroundImag(dataUrl)
+            setBackgroundImg(dataUrl)
 
         } catch (error) {
             console.error('Error uploading file:', error);
@@ -29,15 +27,15 @@ const MainUploadComp = () => {
 
     const handleFileUploadSuccess = (url) => {
         setShareableURL(url);
+        applyImg(url)
         setShowModal(!showModal);
-        setBackgroungImg(url)
     };
 
     return (
         <>
             <UploadForm
                 handleFileUploadSuccess={handleFileUploadSuccess}
-                backgroundImag={backgroundImag} />
+                backgroundImg={backgroundImg} />
             {showModal ? <UploadMsgComp
                 showModal={showModal}
                 shareableURL={shareableURL}
