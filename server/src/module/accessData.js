@@ -8,7 +8,7 @@ const saveImgToDB = async (imgObj) => {
     return imgObj.metaData.url
 }
 
-const getImgsFromDBByUrl = async (urlImg) => {
+const getImgFromDBByUrl = async (urlImg) => {
     return DBImages.find(img => img.metaData.url === urlImg)
 }
 
@@ -17,9 +17,7 @@ const getImgsFromDBByUrl = async (urlImg) => {
 //For production is better to use cron jobs saperated service 
 const startInterval = (intervalDuration) => {
     setInterval(() => {
-        console.log('Interval executed');
         cleanupExpiredFiles()
-        console.log(DBImages);
     }, intervalDuration);
 };
 
@@ -34,6 +32,6 @@ startInterval(6 * 1000)
 
 export {
     saveImgToDB,
-    getImgsFromDBByUrl,
+    getImgFromDBByUrl,
 };
 

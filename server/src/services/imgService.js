@@ -1,11 +1,11 @@
 import crypto from 'crypto';
-import { saveImgToDB, getImgsFromDBByUrl } from '../module/accessData.js'
+import { saveImgToDB, getImgFromDBByUrl } from '../module/accessData.js'
 
 //At real DB i will use UUID or other unique id but for now it's simple counter
 let idCounter = 1;
 
 const getImgByUrl = async (urlImg) => {
-    return await getImgsFromDBByUrl(urlImg)
+    return await getImgFromDBByUrl(urlImg)
 }
 
 const addImgToDb = async (dataImg, metaDataImg) => {
@@ -53,7 +53,8 @@ const uniqueURLBuilder = (imageBuffer, updateDate, expiredDate) => {
     return hashDigest;
 }
 
- export {
+export {
     addImgToDb,
     getImgByUrl,
 };
+
