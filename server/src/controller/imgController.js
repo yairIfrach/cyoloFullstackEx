@@ -38,7 +38,7 @@ const imgController = {
                 if (!imgToSend) {
                     res.send({
                         status: "success",
-                        message: `But we didn't find a picture similar to: ${localEnv}${sharableURL}`,
+                        message: `But we didn't find a picture similar to: ${BACE_URL}${fileUrl}`,
                     })
                 } else {
                     const response = {

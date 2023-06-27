@@ -9,7 +9,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-import axios from 'axios';
+import { addImg } from '../common/api';
 
 const theme = createTheme();
 
@@ -22,14 +22,17 @@ const UploadForm = (props) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault()
+
         if (selectedFile && retentionTime) {
             const formData = new FormData(event.currentTarget);
             formData.append('imgToSave', selectedFile);
             formData.append('retentionTime', retentionTime);
+
             try {
-                const response = await axios.put('http://localhost:3000/v1/file', formData);
-                const urlResponse = response.data.url;
+                const resData = await addImg(formData)
+                const urlResponse = resData.url;
                 handleFileUploadSuccess(urlResponse);
+
             } catch (error) {
                 console.error('Error uploading file:', error);
             }
@@ -61,9 +64,8 @@ const UploadForm = (props) => {
                             t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
-                    }}
-                >
-                <img src={backgroundImg} style={{height: '100vh' , width: '60vw'}} alt='Uploaded image' />
+                    }}>
+                    <img  src={backgroundImg} alt='Uploaded image' style={{ height: '100vh', width: '60vw' }}  />
                 </Grid>
                 <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
                     <Box sx={{
@@ -99,7 +101,7 @@ const UploadForm = (props) => {
                                 </Button>
                             </FormLabel> : ''}
                             <Typography component="h2" variant="h5" >
-                                {selectedFile?.name ? selectedFile.name : 'No photo has been uploaded yet'}
+                                {selectedFile?.name}
                             </Typography>
                             <Button
                                 type="submit"
@@ -108,7 +110,6 @@ const UploadForm = (props) => {
                                 sx={{ mt: 3, mb: 2 }} >
                                 Upload image
                             </Button>
-
                         </Box>
                     </Box>
                 </Grid>
