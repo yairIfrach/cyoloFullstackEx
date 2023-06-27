@@ -15,13 +15,13 @@ const theme = createTheme();
 
 const UploadForm = (props) => {
 
-    const { handleFileUploadSuccess, backgroundImag } = props
+    const { handleFileUploadSuccess, backgroundImg } = props
 
     const [selectedFile, setSelectedFile] = useState(null);
     const [retentionTime, setRetentionTime] = useState('');
 
     const handleSubmit = async (event) => {
-        event.preventDefault();
+        event.preventDefault()
         if (selectedFile && retentionTime) {
             const formData = new FormData(event.currentTarget);
             formData.append('imgToSave', selectedFile);
@@ -33,6 +33,8 @@ const UploadForm = (props) => {
             } catch (error) {
                 console.error('Error uploading file:', error);
             }
+            setRetentionTime(1)
+            setSelectedFile(null)
         }
     };
 
@@ -54,14 +56,15 @@ const UploadForm = (props) => {
                 <CssBaseline />
                 <Grid item xs={false} sm={4} md={7}
                     sx={{
-                        backgroundImage: `url(${backgroundImag})`,
                         backgroundRepeat: 'no-repeat',
                         backgroundColor: (t) =>
                             t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
                     }}
-                />
+                >
+                <img src={backgroundImg} style={{height: '100vh' , width: '60vw'}} alt='Uploaded image' />
+                </Grid>
                 <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
                     <Box sx={{
                         my: 8,

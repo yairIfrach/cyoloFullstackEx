@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "main": "./src/server.js",
+  "type": "module",
   "dependencies": {
     "cors": "^2.8.5",
     "crypto": "^1.0.1",

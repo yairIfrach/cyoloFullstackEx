@@ -1,5 +1,5 @@
-const crypto = require('crypto');
-const { saveImgToDB, getImgsFromDBByUrl } = require('../module/accessData')
+import crypto from 'crypto';
+import { saveImgToDB, getImgsFromDBByUrl } from '../module/accessData.js'
 
 //At real DB i will use UUID or other unique id but for now it's simple counter
 let idCounter = 1;
@@ -14,6 +14,7 @@ const addImgToDb = async (dataImg, metaDataImg) => {
 
 const imgBuilder = (dataImg, metaDataImg) => {
     const { currentDate, expiredDate } = dateTimeBuilder(Number(metaDataImg.retentionTime))
+    const prepareDataImg = {...dataImg.imgToSave , base64Data: generateImageFromBuffer(dataImg.imgToSave.data)}
     const imgToSave = {
         id: idCounter++,
         metaData: {
@@ -21,10 +22,15 @@ const imgBuilder = (dataImg, metaDataImg) => {
             expiredDate: expiredDate,
             url: uniqueURLBuilder(dataImg.imgToSave, currentDate, expiredDate)
         },
-        dataImg: dataImg.imgToSave,
+        dataImg: prepareDataImg,
     }
     return imgToSave
 }
+
+const generateImageFromBuffer = buffer => {
+    let tempBuffer = Buffer.from(buffer, 'base64');
+    return tempBuffer.toString('base64');
+};
 
 const dateTimeBuilder = (expiredDateInMinutes) => {
     const currentDate = new Date();
@@ -47,7 +53,7 @@ const uniqueURLBuilder = (imageBuffer, updateDate, expiredDate) => {
     return hashDigest;
 }
 
-module.exports = {
+ export {
     addImgToDb,
     getImgByUrl,
 };

@@ -1,11 +1,11 @@
 
-const express = require('express');
-const {imgController} = require('../controller/imgController');
+import express from 'express'
+import { imgController } from '../controller/imgController.js'
 
-const router = express.Router();
+const v1Routes = express.Router();
 
-router.put('/file', imgController.handleAddImgRequest);
-router.get('/:fileUrl', imgController.handleGetImgRequest);
+v1Routes.put('/file', imgController.handleAddImgRequest);
+v1Routes.get('/:fileUrl', imgController.handleGetImgRequest);
 
-module.exports = router
+export default v1Routes 
 
